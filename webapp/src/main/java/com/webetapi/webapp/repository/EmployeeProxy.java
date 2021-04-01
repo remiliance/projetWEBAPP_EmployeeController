@@ -1,5 +1,6 @@
 package com.webetapi.webapp.repository;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.webetapi.webapp.CustomProperties;
 import com.webetapi.webapp.model.Employee;
 import org.slf4j.Logger;
@@ -37,16 +38,16 @@ public class EmployeeProxy {
         String baseApiUrl = props.getApiUrl();
         String getEmployeesUrl = baseApiUrl + "/employees";
 
+        log.info("Get Employees before call ");
+
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Employee>> response = restTemplate.exchange(
                 getEmployeesUrl,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Employee>>() {}
-        );
+                new ParameterizedTypeReference<List<Employee>>(){});
 
-        log.debug("Get Employees call " + response.getStatusCode().toString());
-
+        log.info("Get Employees call " + response.getStatusCode().toString());
         return response.getBody();
     }
 
@@ -89,7 +90,7 @@ public class EmployeeProxy {
                 request,
                 Employee.class);
 
-        log.debug("Create Employee call " + response.getStatusCode().toString());
+        log.error("Create Employee call " + response.getStatusCode().toString());
 
         return response.getBody();
     }

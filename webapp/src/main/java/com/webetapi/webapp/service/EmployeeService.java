@@ -2,6 +2,7 @@ package com.webetapi.webapp.service;
 
 import com.webetapi.webapp.model.Employee;
 import com.webetapi.webapp.repository.EmployeeProxy;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +11,22 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
+
 @Service
 public class EmployeeService {
 
+
     @Autowired
-    public EmployeeProxy employeeProxy;
+    private EmployeeProxy employeeProxy;
+
+    Logger log;
 
     public Employee getEmployee(final int id) {
         return employeeProxy.getEmployee(id);
     }
 
     public List<Employee> getEmployees() {
+        log.info("get Employees Called from Employee Service");
         return employeeProxy.getEmployees();
     }
 

@@ -1,10 +1,14 @@
 package com.webetapi.webapp.controller;
 
+
 import com.webetapi.webapp.CustomProperties;
 import com.webetapi.webapp.model.Employee;
 import com.webetapi.webapp.service.EmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,36 +21,74 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-// NB le transfert de données vers les pages HTML ne marchent pas!
 
-@Data
+
+
 @Controller
 public class EmployeeController {
 
     @Autowired
-    public EmployeeService service;
+    private EmployeeService service;
 
 
     @Autowired
     private CustomProperties props;
 
+    Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
 
+//NE MARCHE PAS !
     @RequestMapping("/printEmployee")
     @ResponseBody
     public List<Employee>  home2() {
-        List<Employee> listEmployee = service.getEmployees();
-        return listEmployee;
+        return service.getEmployees();
+    }
+//Marche!!
+    @RequestMapping("/printEmployee2")
+    @ResponseBody
+    public List<Employee>  home4() {
+        String baseApiUrl = props.getApiUrl();
+        String getEmployeesUrl = baseApiUrl + "/employees";
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<Employee>> response = restTemplate.exchange(
+                getEmployeesUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Employee>>(){});
+        return response.getBody();
     }
 
-
+//idem : marche
     @GetMapping("/home")
     public String home(Model model) {
-        List<Employee> listEmployee =  service.getEmployees();
-        model.addAttribute("employees", listEmployee);
+
+        logger.info("Home Called");
+
+        String baseApiUrl = props.getApiUrl();
+        String getEmployeesUrl = baseApiUrl + "/employees";
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<Employee>> response = restTemplate.exchange(
+                getEmployeesUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Employee>>(){});
+        model.addAttribute("employees", response.getBody());
+        return "home";
+    }
+// ne marche pas
+    @GetMapping("/home2")
+    public String home3 (Model model) {
+        logger.info("Home2 Called #1");
+        List<Employee> listEmployee = service.getEmployees();
+        logger.info("Home2 Called #2");
+        model.addAttribute("employees",listEmployee );
+        logger.info("Home2 Called #3");
         return "home";
     }
 
@@ -59,8 +101,7 @@ public class EmployeeController {
 
     @GetMapping("/updateEmployee/{id}")
     public String updateEmployee(@PathVariable("id") final int id, Model model) {
-        Employee e = new Employee();
-        e = service.getEmployee(id);
+        Employee e = service.getEmployee(id);
         model.addAttribute("employee", e);
         return "formUpdateEmployee";
     }

@@ -29,8 +29,7 @@ public class MovieRatingServiceImp implements MovieRatingService {
         try {
             logger.debug("Calling omdbapi with url {} and title {}", apiUrl, title);
             RestTemplate template = new RestTemplate();
-            ResponseEntity<ObjectNode> response =
-                    template.getForEntity(apiUrl + title, ObjectNode.class);
+            ResponseEntity<ObjectNode> response = template.getForEntity(apiUrl + title, ObjectNode.class);
 
             ObjectNode jsonObject = response.getBody();
 
