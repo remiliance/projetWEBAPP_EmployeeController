@@ -19,6 +19,17 @@ public class Employee {
         return id;
     }
 
+    public Employee() {
+    }
+
+    public Employee(Integer id, String firstName, String lastName, String mail, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }

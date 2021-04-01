@@ -17,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.Data;
 
+import java.util.Iterator;
+import java.util.List;
+
 // NB le transfert de données vers les pages HTML ne marchent pas!
 
 @Data
@@ -24,42 +27,25 @@ import lombok.Data;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService service;
+    public EmployeeService service;
+
 
     @Autowired
     private CustomProperties props;
 
-    @GetMapping("/test")
-    public String test (Model model) {
-        return "test";
-    }
+
 
     @RequestMapping("/printEmployee")
     @ResponseBody
-    public Iterable<Employee>  home2() {
-   /*     Iterable<Employee> listEmployee = service.getEmployees();
+    public List<Employee>  home2() {
+        List<Employee> listEmployee = service.getEmployees();
         return listEmployee;
-    }*/
-///TESTTT DE DEBUG ICI
-
-        String baseApiUrl = props.getApiUrl();
-        String getEmployeesUrl = baseApiUrl + "/employees";
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Iterable<Employee>> response = restTemplate.exchange(
-                getEmployeesUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<Iterable<Employee>>() {
-                }
-        );
-        return response.getBody();
     }
 
 
     @GetMapping("/home")
     public String home(Model model) {
-        Iterable<Employee> listEmployee = service.getEmployees();
+        List<Employee> listEmployee =  service.getEmployees();
         model.addAttribute("employees", listEmployee);
         return "home";
     }
@@ -73,7 +59,8 @@ public class EmployeeController {
 
     @GetMapping("/updateEmployee/{id}")
     public String updateEmployee(@PathVariable("id") final int id, Model model) {
-        Employee e = service.getEmployee(id);
+        Employee e = new Employee();
+        e = service.getEmployee(id);
         model.addAttribute("employee", e);
         return "formUpdateEmployee";
     }

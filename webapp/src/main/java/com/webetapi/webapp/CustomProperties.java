@@ -11,10 +11,14 @@ import lombok.Data;
 public class CustomProperties {
 
     private String apiUrl;
+    private String apiUrlRating;
 
     public String getApiUrl() {
         return apiUrl;
     }
 
 
+    public String getApiUrlRating() {
+        return apiUrlRating;
+    }
 }

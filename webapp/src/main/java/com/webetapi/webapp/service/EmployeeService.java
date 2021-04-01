@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Service
 public class EmployeeService {
 
     @Autowired
-    private EmployeeProxy employeeProxy;
+    public EmployeeProxy employeeProxy;
 
     public Employee getEmployee(final int id) {
         return employeeProxy.getEmployee(id);
     }
 
-    public Iterable<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employeeProxy.getEmployees();
     }
 

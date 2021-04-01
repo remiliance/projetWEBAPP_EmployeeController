@@ -14,9 +14,14 @@ import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @Slf4j
 @Component
 public class EmployeeProxy {
+
+    public EmployeeProxy() {
+    }
 
     @Autowired
     private CustomProperties props;
@@ -27,17 +32,17 @@ public class EmployeeProxy {
      * Get all employees
      * @return An iterable of all employees
      */
-    public Iterable<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
 
         String baseApiUrl = props.getApiUrl();
         String getEmployeesUrl = baseApiUrl + "/employees";
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Iterable<Employee>> response = restTemplate.exchange(
+        ResponseEntity<List<Employee>> response = restTemplate.exchange(
                 getEmployeesUrl,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<Iterable<Employee>>() {}
+                new ParameterizedTypeReference<List<Employee>>() {}
         );
 
         log.debug("Get Employees call " + response.getStatusCode().toString());
