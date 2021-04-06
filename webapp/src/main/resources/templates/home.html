@@ -58,13 +58,13 @@
                 <td><span th:text="${employee.lastName}"> Nom </span></td>
                 <td>
                     <a th:href="@{/updateEmployee/{id}(id=${employee.id})}"><button class="btn btn-info">Modifier</button></a>
-                    <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}"><button class="btn btn-danger">Supprimer</button></a>
+                    <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}"><button id="Supprimer" class="btn btn-danger">Supprimer</button></a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <h4><a th:href="@{/createEmployee}">Ajouter un nouvel employée</a></h4>
+    <h4><a id="Ajout" th:href="@{/createEmployee}">Ajouter un nouvel employée</a></h4>
 
 </div>
 

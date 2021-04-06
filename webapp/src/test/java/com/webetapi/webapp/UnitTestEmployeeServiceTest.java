@@ -33,11 +33,13 @@ public class UnitTestEmployeeServiceTest {
     @Test
     public void testGetEmployeesReturnsAllEmployeeItemFromProxy() {
 
-        //Arrange
+        //given
         Employee item1 = new Employee(1, "Star Wars", "7.7", "M", "dd");
         Employee item2 = new Employee(2, "Star Trek", "7.7", "L", "dd");
         List<Employee> mockItems = Arrays.asList(item1, item2);
 
+
+        //when
         when(EmployeeProxyMock.getEmployees()).thenReturn(mockItems);
 
         //Act
