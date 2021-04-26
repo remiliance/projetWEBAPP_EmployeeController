@@ -5,6 +5,7 @@ import com.webetapi.webapp.CustomProperties;
 import com.webetapi.webapp.model.Employee;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -41,6 +42,8 @@ public class EmployeeProxy {
         log.info("Get Employees before call ");
 
         RestTemplate restTemplate = new RestTemplate();
+
+
         ResponseEntity<List<Employee>> response = restTemplate.exchange(
                 getEmployeesUrl,
                 HttpMethod.GET,
